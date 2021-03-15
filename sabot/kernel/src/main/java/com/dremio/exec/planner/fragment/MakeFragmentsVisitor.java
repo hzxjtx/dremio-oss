@@ -33,7 +33,7 @@ public class MakeFragmentsVisitor extends AbstractPhysicalVisitor<Fragment, Frag
 
   @Override
   public Fragment visitExchange(Exchange exchange, Fragment value) throws ForemanSetupException {
-//    logger.debug("Visiting Exchange {}", exchange);
+    logger.debug("Visiting Exchange {}", exchange);
     if (value == null) {
       throw new ForemanSetupException("The simple fragmenter was called without a FragmentBuilder value.  This will only happen if the initial call to SimpleFragmenter is by a Exchange node.  This should never happen since an Exchange node should never be the root node of a plan.");
     }
@@ -46,7 +46,7 @@ public class MakeFragmentsVisitor extends AbstractPhysicalVisitor<Fragment, Frag
 
   @Override
   public Fragment visitOp(PhysicalOperator op, Fragment value)  throws ForemanSetupException {
-//    logger.debug("Visiting Other {}", op);
+    logger.debug("XING==>Visiting Other {}, value:{}", op, value);
     value = ensureBuilder(value);
     value.addOperator(op);
     for (PhysicalOperator child : op) {

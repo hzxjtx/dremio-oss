@@ -193,5 +193,29 @@ public class OutOfBandMessage {
     public byte[] getBytes() {
       return bytes;
     }
+
+    @Override
+    public String toString() {
+      return "Payload{" +
+        "type='" + type + '\'' +
+        ", bytes=" + Arrays.toString(bytes) +
+        '}';
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "OutOfBandMessage{" +
+      "queryId=" + queryId +
+      ", majorFragmentId=" + majorFragmentId +
+      ", targetMinorFragmentIds=" + targetMinorFragmentIds +
+      ", operatorId=" + operatorId +
+      ", sendingMinorFragmentId=" + sendingMinorFragmentId +
+      ", sendingMajorFragmentId=" + sendingMajorFragmentId +
+      ", sendingOperatorId=" + sendingOperatorId +
+      ", payload=" + payload +
+      ", isOptional=" + isOptional +
+      ", buffers=" + Arrays.toString(buffers) +
+      '}';
   }
 }

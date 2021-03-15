@@ -20,6 +20,7 @@ import java.util.Map;
 
 import com.dremio.common.AutoCloseables;
 import com.dremio.sabot.exec.context.SharedResourcesContext;
+import com.dremio.sabot.exec.fragment.FragmentExecutor;
 import com.dremio.sabot.exec.fragment.OutOfBandMessage;
 import com.dremio.sabot.op.spi.TerminalOperator;
 import com.dremio.sabot.task.Task.State;
@@ -30,7 +31,7 @@ import com.google.common.collect.ImmutableMap;
  * pipes picking the right ones to pump to output all data.
  */
 public class Pipeline implements AutoCloseable {
-
+  private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(Pipeline.class);
   private Pipe currentPipe;
   private final List<Wrapped<?>> operators;
   private final Map<Integer, Wrapped<?>> operatorMap;
@@ -65,6 +66,7 @@ public class Pipeline implements AutoCloseable {
   }
 
   public void setup() throws Exception {
+    logger.info("XING=> termialPipe setup:{}", terminalPipe.toString());
     terminalPipe.setup();
   }
 
@@ -172,7 +174,10 @@ public class Pipeline implements AutoCloseable {
       sb.append(o.getInner().getClass().getSimpleName())
         .append(":")
         .append(o.getState().name())
-        .append(", ");
+        .append(", CurPipe=>")
+        .append(this.currentPipe)
+        .append(", Terminal Pipe=>")
+        .append(this.terminalPipe);
     }
     return sb.toString();
   }

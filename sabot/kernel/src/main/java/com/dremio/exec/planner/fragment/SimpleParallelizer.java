@@ -597,10 +597,7 @@ public class SimpleParallelizer implements ParallelizationParameters {
                   .addAllExtFragmentAssignments(extFragmentAssignments)
                   .build();
 
-          if (logger.isTraceEnabled()) {
-            logger.trace(
-                "Remote major fragment:\n {}", DremioStringUtils.unescapeJava(major.toString()));
-          }
+            logger.debug("Remote major fragment:\n {}", DremioStringUtils.unescapeJava(major.toString()));
         }
 
         final NodeEndpoint assignment = wrapper.getAssignedEndpoint(minorFragmentId);
@@ -623,10 +620,7 @@ public class SimpleParallelizer implements ParallelizationParameters {
           .addAllAttrs(attrList)
           .build();
 
-        if (logger.isTraceEnabled()) {
-          logger.trace(
-            "Remote minor fragment:\n {}", DremioStringUtils.unescapeJava(minor.toString()));
-        }
+          logger.debug("Remote minor fragment:\n {}", DremioStringUtils.unescapeJava(minor.toString()));
 
         fragments.add(new PlanFragmentFull(major, minor));
       }

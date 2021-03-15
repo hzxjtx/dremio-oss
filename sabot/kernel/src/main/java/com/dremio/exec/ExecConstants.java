@@ -339,7 +339,7 @@ public interface ExecConstants {
    * Compression used to send fragments over RPC
    */
   String FRAGMENT_CODEC_KEY = "planner.fragment.codec";
-  EnumValidator<FragmentCodec> FRAGMENT_CODEC = new EnumValidator<>(FRAGMENT_CODEC_KEY, FragmentCodec.class, FragmentCodec.SNAPPY);
+  EnumValidator<FragmentCodec> FRAGMENT_CODEC = new EnumValidator<>(FRAGMENT_CODEC_KEY, FragmentCodec.class, FragmentCodec.NONE);
 
   String ENABLE_VERBOSE_ERRORS_KEY = "exec.errors.verbose";
   OptionValidator ENABLE_VERBOSE_ERRORS = new BooleanValidator(ENABLE_VERBOSE_ERRORS_KEY, false);

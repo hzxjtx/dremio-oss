@@ -56,4 +56,13 @@ public class PlanFragmentFull {
   public long getMemInitial() { return major.getMemInitial(); }
 
   public long getMemMax() { return minor.getMemMax(); }
+
+  @Override
+  public String toString() {
+    return "PlanFragmentFull{" +
+      "major=" + major +
+      ", minor=" + minor +
+      ", handle=" + handle +
+      '}';
+  }
 }

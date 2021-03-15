@@ -262,6 +262,7 @@ public class FragmentExecutor {
       if (work != null) {
         // we don't know how long it will take to process one work unit, we rely on the scheduler to execute
         // this fragment again if it didn't run long enough
+        logger.info("XING=> pull work from workQueue:" + work.getClass().toGenericString());
         work.run();
         return;
       }
@@ -285,6 +286,14 @@ public class FragmentExecutor {
       }
 
       // pump the pipeline
+      if (pipeline != null && finishedFragment != null) {
+        logger.info("XING=> doPump. Run pipeline is:{}, finishFragment:{}",
+                  pipeline.toString(),
+                  finishedFragment.toString()
+                  );
+      } else {
+        logger.info("XING=> doPump. Run pipeline is:{}", pipeline.toString());
+      }
       taskState = pumper.run();
 
       // if we've finished all work, let's wrap up.
@@ -367,12 +376,18 @@ public class FragmentExecutor {
     final PlanFragmentMinor minor = fragment.getMinor();
 
     logger.debug("Starting fragment {}:{} on {}:{}", major.getHandle().getMajorFragmentId(), getHandle().getMinorFragmentId(), minor.getAssignment().getAddress(), minor.getAssignment().getUserPort());
+    logger.debug("XING==> FragmentExecutor Current Fragment {}", fragment.toString());
     outputAllocator = ticket.newChildAllocator("output-frag:" + QueryIdHelper.getFragmentId(getHandle()),
       fragmentOptions.getOption(ExecConstants.OUTPUT_ALLOCATOR_RESERVATION),
       Long.MAX_VALUE);
     contextCreator.setFragmentOutputAllocator(outputAllocator);
 
     final PhysicalOperator rootOperator = reader.readFragment(fragment);
+    logger.info("XING==> Physical Operator from Fragment about Root is: Clazz:{}, Content:{}",
+      rootOperator,
+      rootOperator.toString()
+    );
+    logger.info("XING=> ShareResource in pipeline create:{}", sharedResources.toString());
     contextCreator.setMinorFragmentEndpointsFromRootSender(rootOperator);
     FunctionLookupContext functionLookupContextToUse = functionLookupContext;
     if (fragmentOptions.getOption(PlannerSettings.ENABLE_DECIMAL_V2)) {
@@ -388,11 +403,10 @@ public class FragmentExecutor {
         tunnelProvider,
         new SharedResourcesContextImpl(sharedResources)
         );
+    logger.info("XING=> Construct Pipeline:{}" , pipeline.toString());
 
     pipeline.setup();
-
     clusterCoordinator.getServiceSet(ClusterCoordinator.Role.COORDINATOR).addNodeStatusListener(crashListener);
-
     transitionToRunning();
     isSetup = true;
   }
@@ -667,6 +681,8 @@ public class FragmentExecutor {
                 throw new IllegalStateException("Unable to handle OOB message");
               }
             } else {
+              logger.info("XING=> Pipeline:{},  handler out of bound message:{}",
+                pipeline.toString(), finalMessage.toString());
               pipeline.workOnOOB(finalMessage);
             }
           } catch (IllegalStateException e) {
