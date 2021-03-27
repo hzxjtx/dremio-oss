@@ -85,6 +85,7 @@ public class ServiceRegistry implements Service {
   @Override
   public void start() throws Exception {
     for(Service service: services) {
+      logger.info("Huzx Service is Starting:===>{}, {}", service.getClass(), service.toString());
       service.start();
     }
   }

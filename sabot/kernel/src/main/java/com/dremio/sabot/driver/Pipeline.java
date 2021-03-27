@@ -173,11 +173,7 @@ public class Pipeline implements AutoCloseable {
     for(Wrapped<?> o : operators){
       sb.append(o.getInner().getClass().getSimpleName())
         .append(":")
-        .append(o.getState().name())
-        .append(", CurPipe=>")
-        .append(this.currentPipe)
-        .append(", Terminal Pipe=>")
-        .append(this.terminalPipe);
+        .append(o.getState().name());
     }
     return sb.toString();
   }

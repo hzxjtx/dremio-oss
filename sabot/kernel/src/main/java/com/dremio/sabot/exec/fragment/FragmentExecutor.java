@@ -375,8 +375,12 @@ public class FragmentExecutor {
     final PlanFragmentMajor major = fragment.getMajor();
     final PlanFragmentMinor minor = fragment.getMinor();
 
-    logger.debug("Starting fragment {}:{} on {}:{}", major.getHandle().getMajorFragmentId(), getHandle().getMinorFragmentId(), minor.getAssignment().getAddress(), minor.getAssignment().getUserPort());
-    logger.debug("XING==> FragmentExecutor Current Fragment {}", fragment.toString());
+    logger.debug("Starting fragment {}:{} on {}:{}",
+      major.getHandle().getMajorFragmentId(),
+      getHandle().getMinorFragmentId(),
+      minor.getAssignment().getAddress(),
+      minor.getAssignment().getUserPort()
+    );
     outputAllocator = ticket.newChildAllocator("output-frag:" + QueryIdHelper.getFragmentId(getHandle()),
       fragmentOptions.getOption(ExecConstants.OUTPUT_ALLOCATOR_RESERVATION),
       Long.MAX_VALUE);
@@ -387,7 +391,6 @@ public class FragmentExecutor {
       rootOperator,
       rootOperator.toString()
     );
-    logger.info("XING=> ShareResource in pipeline create:{}", sharedResources.toString());
     contextCreator.setMinorFragmentEndpointsFromRootSender(rootOperator);
     FunctionLookupContext functionLookupContextToUse = functionLookupContext;
     if (fragmentOptions.getOption(PlannerSettings.ENABLE_DECIMAL_V2)) {

@@ -222,7 +222,7 @@ public class ExecutionPlanCreator {
   }
 
   private static void traceFragments(QueryContext queryContext, List<PlanFragmentFull> fullPlanFragments) {
-    if (logger.isTraceEnabled()) {
+    // if (logger.isTraceEnabled()) {
       final StringBuilder sb = new StringBuilder();
       sb.append("PlanFragments for query ");
       sb.append(queryContext.getQueryId());
@@ -263,9 +263,9 @@ public class ExecutionPlanCreator {
         }
         sb.append(jsonString);
 
-        logger.trace(sb.toString());
+        logger.trace("Huzx => Trace Execution Plan:" + sb.toString() + "\n");
       }
-    }
+    // }
   }
 
 }
